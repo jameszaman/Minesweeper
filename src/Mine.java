@@ -10,29 +10,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
 
-public class Mine {
+//This class is for everything related to the frame.
+public class Mine extends Game{
     static int freeSpaceLeft = 54;
     JFrame frame = new JFrame("Minesweeper");
     JPanel panel = new JPanel();//Using a panel for resize purpose.
     JButton buttons[] = new JButton[64];
-    HashSet<Integer> bombs = new HashSet<>();// This is where the location for all the bombs are stored.
-    //Still testing the icons. Not Final.
-    ImageIcon done = new ImageIcon("like.png");
-    ImageIcon button = new ImageIcon("button.png");
-    ImageIcon mine = new ImageIcon("cross.png");// Not using this right now.
+    JPanel panels[] = new JPanel[64];
+    JLabel label[] = new JLabel[64];
 
     Mine() {
         //This is to show the game.
-        frame.setSize(450,450);
+        frame.setSize(520,520);
         panel.setLayout(new GridLayout(8,8));
+        panel.setBackground(Color.GREEN);
 
         for(int i = 0; i < 64; ++i) {
             //Adding all the buttons.
             buttons[i] = new JButton(button);
             buttons[i].addActionListener(new Listen());
-            panel.add(buttons[i]);
+            //using a panel for every Button. Because you cannot access GridLayout.
+            panels[i] = new JPanel(new BorderLayout());
+            panels[i].add(buttons[i]);
+            panel.add(panels[i]);
         }
 
         frame.add(panel);
@@ -41,13 +42,6 @@ public class Mine {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         init(10);
-    }
-
-    //All the things necessary at the start of the game
-    void init(int noOfBombs) {
-        while (bombs.size() < noOfBombs) {//Adding all the bombs.
-            bombs.add((int)(Math.random()*64));
-        }
     }
 
     //What happens while playing the game.
@@ -60,10 +54,10 @@ public class Mine {
                         frame.dispose();
                         JOptionPane.showMessageDialog(null, "GAME OVER!");
                     }
-                    else {
-                        buttons[i].setIcon(done);
-                    }
-//                    buttons[i].setEnabled(false);
+                    //Adding a label where bomb was not found!
+                    label[i] = new JLabel(like);
+                    panels[i].add(label[i]);
+                    buttons[i].setVisible(false);
                     freeSpaceLeft--;
                     if(freeSpaceLeft == 0) {// If no more Free space is left, only bomb is left. You Win.
                         JOptionPane.showMessageDialog(null, "You Win");
