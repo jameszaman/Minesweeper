@@ -30,7 +30,7 @@ public class Mine {
 
         for(int i = 0; i < 64; ++i) {
             //Adding all the buttons.
-            buttons[i] = new JButton(done);
+            buttons[i] = new JButton(button);
             buttons[i].addActionListener(new Listen());
             panel.add(buttons[i]);
         }
@@ -61,9 +61,9 @@ public class Mine {
                         JOptionPane.showMessageDialog(null, "GAME OVER!");
                     }
                     else {
-                        buttons[i].setIcon(button);
+                        buttons[i].setIcon(done);
                     }
-                    buttons[i].setEnabled(false);
+//                    buttons[i].setEnabled(false);
                     freeSpaceLeft--;
                     if(freeSpaceLeft == 0) {// If no more Free space is left, only bomb is left. You Win.
                         JOptionPane.showMessageDialog(null, "You Win");
