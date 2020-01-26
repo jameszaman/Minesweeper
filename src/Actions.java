@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.HashSet;
 
 public class Actions {
@@ -7,7 +8,7 @@ public class Actions {
 
     //Address of all bombs
     HashSet<Integer> bombAddress = new HashSet<>();
-    
+
     //To check if you won the game or not.
     protected int noOfBoxesLeft; // The value is set along with the bombs.
 
@@ -76,6 +77,57 @@ public class Actions {
 
     }
 
+    void emptyBox(int i, int j) {
+        try{
+            Clicked(i+1,j);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i-1,j);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i,j+1);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i,j-1);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i+1,j+1);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i+1,j-1);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i-1,j+1);
+        }
+        catch (Exception e) {
+
+        }
+        try{
+            Clicked(i-1,j-1);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
     //Method to initialize the bomb addresses
     void initBombs(int noOfBombs) {
         while (bombAddress.size() != noOfBombs) {
@@ -84,5 +136,32 @@ public class Actions {
         noOfBoxesLeft = 100 - noOfBombs;
 
         System.out.println(bombAddress.size());
+    }
+
+    void Clicked(int i, int j) {
+        if(boxes[i][j].isEnabled()) {
+            if (boxes[i][j].state == 0) {
+                boxes[i][j].setVisible(false);
+                System.out.println("i = " + i + " j = " + j);
+                emptyBox(i,j);
+            } else if (boxes[i][j].state == 1) {
+                boxes[i][j].setIcon(new ImageIcon("1.png"));
+            } else if (boxes[i][j].state == 2) {
+                boxes[i][j].setIcon(new ImageIcon("2.png"));
+            } else if (boxes[i][j].state == 3) {
+                boxes[i][j].setIcon(new ImageIcon("3.png"));
+            } else if (boxes[i][j].state == 4) {
+                boxes[i][j].setIcon(new ImageIcon("4.png"));
+            } else if (boxes[i][j].state == 5) {
+                boxes[i][j].setIcon(new ImageIcon("5.png"));
+            } else if (boxes[i][j].state == 6) {
+                boxes[i][j].setIcon(new ImageIcon("6.png"));
+            } else if (boxes[i][j].state == 7) {
+                boxes[i][j].setIcon(new ImageIcon("7.png"));
+            } else if (boxes[i][j].state == 8) {
+                boxes[i][j].setIcon(new ImageIcon("8.png"));
+            }
+            noOfBoxesLeft--;
+        }
     }
 }
