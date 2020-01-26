@@ -13,7 +13,7 @@ public class Actions {
 
     //Method to initialise the state of the buttons
     //state of 0 if it has no neighbors as bombs, 1 if it has 1 bombed neighbor, 2 if it has 2 bombed neighbor and so on...
-    //exception may occur in the boxes at the edge so they are handled
+    //exception may occur in the boxes at the edge so they are handled in a try-catch block
     void initState() {
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
