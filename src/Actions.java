@@ -141,8 +141,7 @@ public class Actions {
     void Clicked(int i, int j) {
         if(boxes[i][j].isEnabled()) {
             if (boxes[i][j].state == 0) {
-                boxes[i][j].setVisible(false);
-                System.out.println("i = " + i + " j = " + j);
+                boxes[i][j].setEnabled(false);
                 emptyBox(i,j);
             } else if (boxes[i][j].state == 1) {
                 boxes[i][j].setIcon(new ImageIcon("1.png"));
