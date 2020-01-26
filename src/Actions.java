@@ -95,35 +95,26 @@ public class Actions {
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
                     if (actionEvent.getSource() == boxes[i][j]) {
+                        //Adding the icons based on the state of the box. i.e. no. of neighbors with bombs
                         if (boxes[i][j].state == -1) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("mine.png"));
                         } else if (boxes[i][j].state == 0) {
                             boxes[i][j].setVisible(false);
-                            //boxes[i][j].setIcon(new ImageIcon("mine.png"));
                         } else if (boxes[i][j].state == 1) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("1.png"));
                         } else if (boxes[i][j].state == 2) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("2.png"));
                         } else if (boxes[i][j].state == 3) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("3.png"));
                         } else if (boxes[i][j].state == 4) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("4.png"));
                         } else if (boxes[i][j].state == 5) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("5.png"));
                         } else if (boxes[i][j].state == 6) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("6.png"));
                         } else if (boxes[i][j].state == 7) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("7.png"));
                         } else if (boxes[i][j].state == 8) {
-                            //boxes[i].setVisible(false);
                             boxes[i][j].setIcon(new ImageIcon("8.png"));
                         }
                     }
