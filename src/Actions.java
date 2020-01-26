@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 
 public class Actions {
@@ -10,6 +7,9 @@ public class Actions {
 
     //Address of all bombs
     HashSet<Integer> bombAddress = new HashSet<>();
+    
+    //To check if you won the game or not.
+    protected int noOfBoxesLeft; // The value is set along with the bombs.
 
     //Method to initialise the state of the buttons
     //state of 0 if it has no neighbors as bombs, 1 if it has 1 bombed neighbor, 2 if it has 2 bombed neighbor and so on...
@@ -81,45 +81,8 @@ public class Actions {
         while (bombAddress.size() != noOfBombs) {
             bombAddress.add((int) (Math.random() * 100));
         }
+        noOfBoxesLeft = 100 - noOfBombs;
 
         System.out.println(bombAddress.size());
-    }
-
-    //Inner Class for button Actions
-    //ActionListener interface implemented
-    class Listener implements ActionListener {
-
-        @Override
-        //sets the image to whatever the state is
-        public void actionPerformed(ActionEvent actionEvent) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (actionEvent.getSource() == boxes[i][j]) {
-                        //Adding the icons based on the state of the box. i.e. no. of neighbors with bombs
-                        if (boxes[i][j].state == -1) {
-                            boxes[i][j].setIcon(new ImageIcon("mine.png"));
-                        } else if (boxes[i][j].state == 0) {
-                            boxes[i][j].setVisible(false);
-                        } else if (boxes[i][j].state == 1) {
-                            boxes[i][j].setIcon(new ImageIcon("1.png"));
-                        } else if (boxes[i][j].state == 2) {
-                            boxes[i][j].setIcon(new ImageIcon("2.png"));
-                        } else if (boxes[i][j].state == 3) {
-                            boxes[i][j].setIcon(new ImageIcon("3.png"));
-                        } else if (boxes[i][j].state == 4) {
-                            boxes[i][j].setIcon(new ImageIcon("4.png"));
-                        } else if (boxes[i][j].state == 5) {
-                            boxes[i][j].setIcon(new ImageIcon("5.png"));
-                        } else if (boxes[i][j].state == 6) {
-                            boxes[i][j].setIcon(new ImageIcon("6.png"));
-                        } else if (boxes[i][j].state == 7) {
-                            boxes[i][j].setIcon(new ImageIcon("7.png"));
-                        } else if (boxes[i][j].state == 8) {
-                            boxes[i][j].setIcon(new ImageIcon("8.png"));
-                        }
-                    }
-                }
-            }
-        }
     }
 }
