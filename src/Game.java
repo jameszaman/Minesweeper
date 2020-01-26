@@ -39,7 +39,7 @@ public class Game extends Actions {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-    
+
     //Inner Class for button Actions
     //ActionListener interface implemented
     class Listener implements ActionListener {
@@ -57,26 +57,7 @@ public class Game extends Actions {
                             frame.dispose();
                         }
                         else {
-                            if (boxes[i][j].state == 0) {
-                                boxes[i][j].setVisible(false);
-                            } else if (boxes[i][j].state == 1) {
-                                boxes[i][j].setIcon(new ImageIcon("1.png"));
-                            } else if (boxes[i][j].state == 2) {
-                                boxes[i][j].setIcon(new ImageIcon("2.png"));
-                            } else if (boxes[i][j].state == 3) {
-                                boxes[i][j].setIcon(new ImageIcon("3.png"));
-                            } else if (boxes[i][j].state == 4) {
-                                boxes[i][j].setIcon(new ImageIcon("4.png"));
-                            } else if (boxes[i][j].state == 5) {
-                                boxes[i][j].setIcon(new ImageIcon("5.png"));
-                            } else if (boxes[i][j].state == 6) {
-                                boxes[i][j].setIcon(new ImageIcon("6.png"));
-                            } else if (boxes[i][j].state == 7) {
-                                boxes[i][j].setIcon(new ImageIcon("7.png"));
-                            } else if (boxes[i][j].state == 8) {
-                                boxes[i][j].setIcon(new ImageIcon("8.png"));
-                            }
-                            noOfBoxesLeft--;
+                            Clicked(i,j);
                         }
                         if(noOfBoxesLeft == 0) JOptionPane.showMessageDialog(null, "You Win!");
                     }
