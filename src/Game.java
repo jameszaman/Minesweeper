@@ -1,7 +1,9 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+        import java.awt.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class Game extends Actions {
@@ -11,13 +13,14 @@ public class Game extends Actions {
 
     Game() {
         //Function to initiate the address of all bombs called
-        initBombs(20);
+        initBombs(10);
 
         //All the buttons created
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 boxes[i][j] = new Box();
                 boxes[i][j].addActionListener(new Listener());
+                boxes[i][j].addMouseListener(new Mouse());
 
                 //Buttons containing bombs are assigned a state of -1
                 if (bombAddress.contains(i * 10 + j)) {
@@ -60,6 +63,21 @@ public class Game extends Actions {
                             Clicked(i,j);
                         }
                         if(noOfBoxesLeft == 0) JOptionPane.showMessageDialog(null, "You Win!");
+                    }
+                }
+            }
+        }
+    }
+
+    class Mouse extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent mouseEvent) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (mouseEvent.getSource() == boxes[i][j]) {
+                        // Adding Flag;
+                        boxes[i][j].setIcon(new ImageIcon("flag.png"));
+                        break;
                     }
                 }
             }
