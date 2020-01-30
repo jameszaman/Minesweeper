@@ -1,5 +1,3 @@
 # Minesweeper
-FOR NOOBS!
+FOR NOOBS BY NOOBS!
 
-# Branch-1
-1st Test Branch
