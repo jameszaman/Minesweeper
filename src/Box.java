@@ -1,9 +1,16 @@
 import javax.swing.*;
 
 public class Box extends JButton {
-    int state = 0;
+
+    int state;
+    boolean flagged;
+    boolean uncovered;
 
     Box() {
         this.setIcon(new ImageIcon("box.png"));
+
+        this.state = 0;
+        this.flagged = false;
+        this.uncovered = false;
     }
 }
