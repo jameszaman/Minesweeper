@@ -1,31 +1,99 @@
 import javax.swing.*;
-import java.util.HashSet;
-
-//This class is to handled the game play element.
-public class Game {
-    //Graphical part.
-    //Still testing the icons. Not Final.
-    ImageIcon like = new ImageIcon("like.png");//not using this right now.
-    ImageIcon button = new ImageIcon("button.png");
-    ImageIcon mine = new ImageIcon("mine.png");// Not using this right now.
-    //this is to show how many bombs are around.
-    ImageIcon one = new ImageIcon("one.png");//Not using it right now.
-    ImageIcon two = new ImageIcon("two.png");//Not using it right now.
-    ImageIcon three = new ImageIcon("three.png");//Not using it right now.
-    ImageIcon four = new ImageIcon("four.png");//Not using it right now.
-    ImageIcon five = new ImageIcon("five.png");//Not using it right now.
-    ImageIcon six = new ImageIcon("six.png");//Not using it right now.
-    ImageIcon seven = new ImageIcon("seven.png");//Not using it right now.
-    ImageIcon eight = new ImageIcon("eight.png");//Not using it right now.
+import java.awt.*;
+import java.awt.event.*;
 
 
-    HashSet<Integer> bombs = new HashSet<>();// This is where the location for all the bombs are stored.
+public class Game extends Actions {
+    //GUI objects
+    JFrame frame = new JFrame("Mines");
+    JPanel panel = new JPanel(new GridLayout(10, 10));
 
 
-    //All the things necessary at the start of the game
-    void init(int noOfBombs) {
-        while (bombs.size() < noOfBombs) {//Adding all the bombs.
-            bombs.add((int)(Math.random()*64));
+    //Mouse Listener for the buttons
+    Game.Listener listener = new Game.Listener();
+
+    //Constructor for the game
+    Game() {
+        //Function to initiate the address of all bombs called
+        initBombs(10);
+
+        //All the buttons created
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                boxes[i][j] = new Box();
+                boxes[i][j].addMouseListener(listener);
+
+                //Buttons containing bombs are assigned a state of -1
+                if (bombAddress.contains(i * 10 + j)) {
+                    boxes[i][j].state = -1;
+                }
+                panel.add(boxes[i][j]);
+            }
         }
+
+        //state of the remaining buttons initialized
+        initState();
+
+        //GUI elements added and properties set
+        frame.add(panel);
+
+        frame.setSize(500, 500);
+        frame.setResizable(false);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+
+    //Inner Class for button Actions
+    //ActionListener interface implemented
+    class Listener extends MouseAdapter {
+        @Override
+        //sets the image to whatever the state is
+        public void mouseClicked(MouseEvent e) {
+            //Checking every box to get which button was clicked
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (e.getSource() == boxes[i][j]) {
+                        //If left mouse button is clicked
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            if (!boxes[i][j].flagged) {
+                                //Adding the icons based on the state of the box. i.e. no. of neighbors with bombs
+                                if (boxes[i][j].state == -1) { //You lose the game in this case.
+                                    boxes[i][j].setIcon(mine);
+                                    reveal();
+                                    JOptionPane.showMessageDialog(null, "You Lose");
+                                    frame.dispose();
+                                } else {
+                                    if (!boxes[i][j].uncovered) {
+                                        clicked(i, j);
+                                    }
+                                }
+                            }
+                        }
+
+                        //if right mouse button is clicked
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            if (!boxes[i][j].uncovered) {
+                                //switching flagged value to add/remove flags
+                                boxes[i][j].flagged = !boxes[i][j].flagged;
+
+                                //Adding/removing a flag if right mouse button is clicked
+                                if (boxes[i][j].flagged) {
+                                    boxes[i][j].setIcon(flag);
+                                } else {
+                                    boxes[i][j].setIcon(box);
+                                }
+                            }
+                        }
+                        if(noOfBoxesLeft == 0) JOptionPane.showMessageDialog(null, "You Win!");
+                    }
+                }
+            }
+        }
+    }
+
+    //Main method
+    public static void main(String[] args) {
+        Game game = new Game();
     }
 }
