@@ -1,9 +1,6 @@
 import javax.swing.*;
-        import java.awt.*;
-        import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 
 public class Game extends Actions {
@@ -11,6 +8,11 @@ public class Game extends Actions {
     JFrame frame = new JFrame("Mines");
     JPanel panel = new JPanel(new GridLayout(10, 10));
 
+
+    //Mouse Listener for the buttons
+    Game.Listener listener = new Game.Listener();
+
+    //Constructor for the game
     Game() {
         //Function to initiate the address of all bombs called
         initBombs(10);
@@ -19,14 +21,12 @@ public class Game extends Actions {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 boxes[i][j] = new Box();
-                boxes[i][j].addActionListener(new Listener());
-                boxes[i][j].addMouseListener(new Mouse());
+                boxes[i][j].addMouseListener(listener);
 
                 //Buttons containing bombs are assigned a state of -1
                 if (bombAddress.contains(i * 10 + j)) {
                     boxes[i][j].state = -1;
                 }
-
                 panel.add(boxes[i][j]);
             }
         }
@@ -43,41 +43,49 @@ public class Game extends Actions {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+
     //Inner Class for button Actions
     //ActionListener interface implemented
-    class Listener implements ActionListener {
-
+    class Listener extends MouseAdapter {
         @Override
         //sets the image to whatever the state is
-        public void actionPerformed(ActionEvent actionEvent) {
+        public void mouseClicked(MouseEvent e) {
+            //Checking every box to get which button was clicked
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
-                    if (actionEvent.getSource() == boxes[i][j]) {
-                        //Adding the icons based on the state of the box. i.e. no. of neighbors with bombs
-                        if (boxes[i][j].state == -1) { //You lose the game in this case.
-                            boxes[i][j].setIcon(new ImageIcon("mine.png"));
-                            JOptionPane.showMessageDialog(null, "You Lose");
-                            frame.dispose();
+                    if (e.getSource() == boxes[i][j]) {
+                        //If left mouse button is clicked
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            if (!boxes[i][j].flagged) {
+                                //Adding the icons based on the state of the box. i.e. no. of neighbors with bombs
+                                if (boxes[i][j].state == -1) { //You lose the game in this case.
+                                    boxes[i][j].setIcon(mine);
+                                    reveal();
+                                    JOptionPane.showMessageDialog(null, "You Lose");
+                                    frame.dispose();
+                                } else {
+                                    if (!boxes[i][j].uncovered) {
+                                        clicked(i, j);
+                                    }
+                                }
+                            }
                         }
-                        else {
-                            Clicked(i,j);
+
+                        //if right mouse button is clicked
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            if (!boxes[i][j].uncovered) {
+                                //switching flagged value to add/remove flags
+                                boxes[i][j].flagged = !boxes[i][j].flagged;
+
+                                //Adding/removing a flag if right mouse button is clicked
+                                if (boxes[i][j].flagged) {
+                                    boxes[i][j].setIcon(flag);
+                                } else {
+                                    boxes[i][j].setIcon(box);
+                                }
+                            }
                         }
                         if(noOfBoxesLeft == 0) JOptionPane.showMessageDialog(null, "You Win!");
-                    }
-                }
-            }
-        }
-    }
-
-    class Mouse extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent mouseEvent) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (mouseEvent.getSource() == boxes[i][j]) {
-                        // Adding Flag;
-                        boxes[i][j].setIcon(new ImageIcon("flag.png"));
-                        break;
                     }
                 }
             }
@@ -88,5 +96,4 @@ public class Game extends Actions {
     public static void main(String[] args) {
         Game game = new Game();
     }
-
 }
